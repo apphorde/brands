@@ -1,0 +1,624 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f7f4" />
+    <title>Brand Oracle — Know the name before you claim it</title>
+    <style>
+      :root {
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: #17251f;
+        background: #f8f7f4;
+        font-synthesis: none;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: radial-gradient(ellipse at 52% 2%, #e8efe7 0, transparent 42%), #f8f7f4;
+      }
+      header {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 clamp(20px, 6vw, 88px);
+        border-bottom: 1px solid #e6e5df;
+      }
+      .brand {
+        display: flex;
+        gap: 11px;
+        align-items: center;
+        font-weight: 700;
+        letter-spacing: -0.04em;
+      }
+      .mark {
+        background: #234b3a;
+        color: #eaf3e8;
+        width: 35px;
+        height: 35px;
+        display: grid;
+        place-items: center;
+        border-radius: 11px;
+        font-size: 19px;
+      }
+      .hero {
+        max-width: 820px;
+        margin: 90px auto 0;
+        padding: 0 24px;
+        text-align: center;
+      }
+      body.researching .hero {
+        width: min(100%, 1800px);
+        max-width: none;
+        margin-top: 26px;
+        transition:
+          margin 0.45s ease,
+          max-width 0.45s ease,
+          width 0.45s ease;
+      }
+      body.researching .hero h1,
+      body.researching .hero .intro,
+      body.researching .hero .privacy,
+      body.researching .hero .error {
+        display: none;
+      }
+      body.researching .search-box {
+        position: sticky;
+        top: 12px;
+        z-index: 2;
+        max-width: 760px;
+        margin: 0 auto;
+        animation: settle 0.45s ease both;
+      }
+      body.researching:not(.research-complete) footer {
+        display: none;
+      }
+      @keyframes settle {
+        from {
+          transform: translateY(-15px) scale(0.98);
+        }
+        to {
+          transform: translateY(0) scale(1);
+        }
+      }
+      .status {
+        min-height: 24px;
+        margin: 0;
+        color: #52705e;
+        font-size: 13px;
+      }
+      .status-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin: 12px 0;
+      }
+      .action-button {
+        flex: 0 0 auto;
+        border: 1px solid #c9d3ca;
+        border-radius: 9px;
+        padding: 8px 13px;
+        background: #fff;
+        color: #31553e;
+        font: inherit;
+        font-size: 12px;
+        font-weight: 650;
+        cursor: pointer;
+      }
+      .action-button:hover:not(:disabled) {
+        background: #f0f4ef;
+      }
+      .action-button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+      .expand-action {
+        margin-top: 18px;
+      }
+      .update-section {
+        margin-top: 25px;
+        padding-top: 20px;
+        border-top: 1px solid #e3e5df;
+      }
+      .update-section h3 {
+        margin: 0 0 14px;
+        color: #52705e;
+        font-size: 14px;
+      }
+      .research-section > h3,
+      .update-section > h3 {
+        margin: 0 0 16px;
+        color: #39453d;
+        font-size: 18px;
+      }
+      .hero h1 {
+        font-family: Georgia, serif;
+        font-weight: 400;
+        letter-spacing: -0.055em;
+        font-size: clamp(43px, 7vw, 76px);
+        line-height: 1.04;
+        margin: 20px 0 18px;
+      }
+      .hero h1 em {
+        color: #537460;
+        font-weight: 400;
+      }
+      .intro {
+        color: #707a72;
+        font-size: 17px;
+        line-height: 1.7;
+        max-width: 610px;
+        margin: 0 auto;
+      }
+      .search-box {
+        margin: 36px auto 0;
+        max-width: 680px;
+        background: #fff;
+        border: 1px solid #dedfd8;
+        border-radius: 16px;
+        padding: 8px;
+        display: flex;
+        box-shadow: 0 12px 40px #283a2a0d;
+      }
+      .search-box:focus-within {
+        border-color: #73907d;
+        box-shadow: 0 0 0 4px #52705e12;
+      }
+      .search-box input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        padding: 12px 16px;
+        font-size: 16px;
+        color: #17251f;
+      }
+      .search-box input::placeholder {
+        color: #a6aca5;
+      }
+      .search-box button {
+        border: 0;
+        border-radius: 10px;
+        padding: 0 22px;
+        background: #234b3a;
+        color: white;
+        font-weight: 650;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .search-box button:hover {
+        background: #315f49;
+      }
+      .search-box button:disabled {
+        opacity: 0.6;
+        cursor: wait;
+      }
+      .privacy {
+        margin: 13px auto 0;
+        font-size: 12px;
+        color: #929992;
+      }
+      .results {
+        width: min(94%, 1800px);
+        max-width: none;
+        margin: 52px auto 60px;
+        padding: 0 clamp(24px, 4vw, 80px);
+      }
+      .results[hidden] {
+        display: none;
+      }
+      .results[aria-busy="true"] .status::before {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 8px;
+        border: 2px solid #52705e44;
+        border-top-color: #52705e;
+        border-radius: 50%;
+        content: "";
+        vertical-align: -2px;
+        animation: spin 0.7s linear infinite;
+      }
+      .result-head {
+        border-bottom: 1px solid #e3e5df;
+        padding-bottom: 17px;
+        margin-bottom: 22px;
+      }
+      .result-head small {
+        color: #7a857c;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 700;
+        font-size: 10px;
+      }
+      .result-head h2 {
+        font:
+          400 30px Georgia,
+          serif;
+        margin: 8px 0 0;
+      }
+      .analysis {
+        background: #fff;
+        border: 1px solid #e5e6e0;
+        border-radius: 16px;
+        padding: 26px 30px;
+        line-height: 1.75;
+        color: #39453d;
+        box-shadow: 0 8px 28px #283a2a08;
+      }
+      .analysis p {
+        margin: 0 0 12px;
+      }
+      .analysis a {
+        color: #32644a;
+      }
+      .sources {
+        margin-top: 22px;
+      }
+      .sources h3 {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: #7a857c;
+      }
+      .source {
+        display: block;
+        text-decoration: none;
+        background: #fff;
+        border: 1px solid #e8e9e4;
+        border-radius: 11px;
+        padding: 14px 16px;
+        margin-top: 9px;
+        color: #34433a;
+      }
+      .source strong {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+      }
+      .source span {
+        display: block;
+        color: #808981;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .empty-sources {
+        color: #808981;
+        font-size: 13px;
+      }
+      .disclaimer {
+        font-size: 12px;
+        color: #858d86;
+        line-height: 1.6;
+        margin-top: 20px;
+      }
+      .error {
+        color: #a34332;
+        text-align: center;
+        margin: 15px;
+      }
+      .loader {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        border: 2px solid #ffffff70;
+        border-top-color: white;
+        border-radius: 50%;
+        vertical-align: -2px;
+        animation: spin 0.7s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      footer {
+        padding: 27px;
+        text-align: center;
+        color: #969d96;
+        font-size: 11px;
+      }
+      @media (max-width: 520px) {
+        header {
+          height: 64px;
+        }
+        .hero {
+          margin-top: 65px;
+        }
+        body.researching .hero {
+          width: 100%;
+          margin-top: 14px;
+          padding: 0 14px;
+        }
+        body.researching .search-box {
+          top: 8px;
+        }
+        .search-box {
+          padding: 6px;
+        }
+        .search-box input {
+          padding: 12px 10px;
+          font-size: 14px;
+        }
+        .search-box button {
+          padding: 0 14px;
+        }
+        .analysis {
+          padding: 21px;
+        }
+        .results {
+          margin-top: 40px;
+        }
+        body.researching .results {
+          width: 100%;
+          margin: 30px auto 40px;
+          padding: 0 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="brand"><span class="mark">✳</span><span>brand oracle</span></div>
+    </header>
+    <main>
+      <section class="hero">
+        <h1>Before you name it,<br /><em>know what’s out there.</em></h1>
+        <p class="intro">
+          Search the web for brands and businesses already using your idea. Get a quick, AI-guided landscape with
+          sources to explore.
+        </p>
+        <form class="search-box" id="form">
+          <input
+            id="term"
+            maxlength="100"
+            minlength="2"
+            placeholder="Try a brand, company, or idea…"
+            aria-label="Brand or company name"
+            required
+          /><button id="submit" type="submit">Explore name&nbsp; ↗</button>
+        </form>
+        <p class="privacy">Search terms are shared with web search and our AI provider to research public sources.</p>
+        <p class="error" id="error" role="alert" hidden></p>
+      </section>
+      <section class="results" id="results" aria-live="polite" hidden></section>
+    </main>
+    <footer>Independent name research · Not legal or trademark advice</footer>
+    <script type="importmap">
+      {
+        "imports": {
+          "marked": "https://esm.sh/marked@15.0.12",
+          "dompurify": "https://esm.sh/dompurify@3.2.6"
+        }
+      }
+    </script>
+    <script type="module">
+      import { marked } from "marked";
+      import DOMPurify from "dompurify";
+
+      const form = document.querySelector("#form"),
+        input = document.querySelector("#term"),
+        button = document.querySelector("#submit"),
+        results = document.querySelector("#results"),
+        error = document.querySelector("#error");
+      let activeJobId = null;
+      let activeStream = null;
+
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, (character) => {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[character];
+        });
+      }
+
+      function renderMarkdown(text) {
+        const rendered = marked.parse(text, { async: false, breaks: true });
+        return DOMPurify.sanitize(rendered, { ALLOWED_URI_REGEXP: /^https?:|^mailto:/i });
+      }
+
+      function renderSource(item) {
+        let sourceURL;
+        try {
+          sourceURL = new URL(item.url);
+        } catch {
+          return "";
+        }
+        if (!["http:", "https:"].includes(sourceURL.protocol)) {
+          return "";
+        }
+        return `<a class="source" href="${escapeHTML(sourceURL.href)}" target="_blank" rel="noopener noreferrer"><strong>${escapeHTML(item.title)}</strong><span>${escapeHTML(sourceURL.href)}</span></a>`;
+      }
+
+      async function cancelActiveSearch(keepalive = false) {
+        activeStream?.close();
+        activeStream = null;
+        const jobId = activeJobId;
+        activeJobId = null;
+        if (jobId) {
+          try {
+            await fetch(`/api/search/${encodeURIComponent(jobId)}`, { method: "DELETE", keepalive });
+          } catch {
+            // The bounded server-side turn limit still protects an abandoned request.
+          }
+        }
+      }
+
+      function getResearchSection(container, data, initial) {
+        let section = container.querySelector(`[data-turn="${data.turn}"]`);
+        if (section) {
+          return section;
+        }
+        section = document.createElement("section");
+        section.className = initial ? "research-section" : "update-section";
+        section.dataset.turn = String(data.turn);
+        section.setAttribute("aria-label", initial ? "Initial brand search" : `Search update ${data.turn}`);
+        const title = document.createElement("h3");
+        title.textContent = initial ? "Initial brand landscape" : data.category;
+        const summary = document.createElement("article");
+        summary.className = "analysis";
+        summary.setAttribute("aria-label", "AI analysis");
+        const sources = document.createElement("div");
+        sources.className = "sources";
+        const sourcesTitle = document.createElement("h3");
+        sourcesTitle.textContent = "Sources from this search";
+        const sourceList = document.createElement("div");
+        sources.append(sourcesTitle, sourceList);
+        section.append(title, summary, sources);
+        container.append(section);
+        section.summaryTarget = summary;
+        section.sourcesTarget = sourceList;
+        return section;
+      }
+
+      function addEvidence(container, data) {
+        const section = getResearchSection(container, data, data.turn === 1);
+        section.sourcesTarget.innerHTML = data.results.length
+          ? data.results.map(renderSource).join("")
+          : '<p class="empty-sources">No new distinct sources appeared in this search.</p>';
+      }
+
+      function addSummary(container, data, initial) {
+        const section = getResearchSection(container, data, initial);
+        section.summaryTarget.innerHTML = renderMarkdown(data.summary);
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        await cancelActiveSearch();
+        error.hidden = true;
+        document.body.classList.add("researching");
+        document.body.classList.remove("research-complete");
+        results.innerHTML = `<div class="result-head"><small>Brand landscape</small><h2>${escapeHTML(input.value)}</h2></div><div class="status-row"><p class="status" id="status" role="status">Starting research…</p><button class="action-button" id="stop-search" type="button" hidden>Stop search</button></div><div id="sections"></div><button class="action-button expand-action" id="expand-search" type="button" hidden>Expand search</button><p class="disclaimer">This is preliminary web research, not comprehensive trademark or company-register research, legal advice, or a claim of availability. Searches use public web results, which may be incomplete or outdated. Check official registers and consult a qualified professional before making decisions.</p>`;
+        results.hidden = false;
+        results.setAttribute("aria-busy", "true");
+        button.disabled = true;
+        button.innerHTML = '<span class="loader"></span>&nbsp; Searching';
+        try {
+          const response = await fetch("/api/search", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ term: input.value }),
+          });
+          const created = await response.json();
+          if (!response.ok) throw new Error(created.error || "Could not complete the search.");
+          activeJobId = created.id;
+          const sections = results.querySelector("#sections");
+          const status = results.querySelector("#status");
+          const stopButton = results.querySelector("#stop-search");
+          const expandButton = results.querySelector("#expand-search");
+          stopButton.hidden = false;
+          stopButton.addEventListener("click", async () => {
+            stopButton.disabled = true;
+            status.textContent = "Stopping search…";
+            await cancelActiveSearch();
+            stopButton.hidden = true;
+            expandButton.hidden = true;
+            status.textContent = "Search stopped. Results so far are preliminary.";
+            results.setAttribute("aria-busy", "false");
+            document.body.classList.add("research-complete");
+          });
+          expandButton.addEventListener("click", async () => {
+            expandButton.disabled = true;
+            status.textContent = "Expanding search to official registers and other sources…";
+            try {
+              const response = await fetch(`/api/search/${encodeURIComponent(created.id)}/expand`, { method: "POST" });
+              if (!response.ok) {
+                throw new Error("Could not expand the search. Please try again.");
+              }
+              expandButton.hidden = true;
+            } catch (err) {
+              status.textContent = err.message;
+              expandButton.disabled = false;
+            }
+          });
+          const stream = new EventSource(`/api/search/${encodeURIComponent(created.id)}/events`);
+          activeStream = stream;
+          stream.addEventListener("progress", (message) => {
+            const update = JSON.parse(message.data);
+            status.textContent = `Search ${update.turn} of ${update.maxTurns} · ${update.status}`;
+          });
+          stream.addEventListener("evidence", (message) => {
+            const update = JSON.parse(message.data);
+            addEvidence(sections, update);
+            status.textContent = `Search ${update.turn} completed · preparing the summary…`;
+            results.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          stream.addEventListener("initial", (message) => {
+            const initial = JSON.parse(message.data);
+            addSummary(sections, initial, true);
+            if (initial.hasRegisteredMatches) {
+              status.textContent = "Registered brand matches found · expand the search for more sources.";
+              expandButton.hidden = false;
+            } else {
+              status.textContent = "Initial results are in · checking for more evidence…";
+            }
+            results.scrollIntoView({ behavior: "smooth", block: "start" });
+          });
+          stream.addEventListener("update", (message) => {
+            addSummary(sections, JSON.parse(message.data), false);
+            status.textContent = "New results are in · checking whether more searches would help…";
+          });
+          stream.addEventListener("done", (message) => {
+            const completion = JSON.parse(message.data);
+            status.textContent =
+              completion.status ||
+              (completion.reason === "turn_limit"
+                ? `Reached the ${completion.turns}-search safety limit; results remain preliminary.`
+                : `Research complete after ${completion.turns} search${completion.turns === 1 ? "" : "es"}.`);
+            results.setAttribute("aria-busy", "false");
+            stopButton.hidden = true;
+            expandButton.hidden = true;
+            document.body.classList.add("research-complete");
+            stream.close();
+            activeStream = null;
+            activeJobId = null;
+          });
+          stream.addEventListener("error", (message) => {
+            if (message.data) {
+              const failure = JSON.parse(message.data);
+              status.textContent = failure.error;
+              results.setAttribute("aria-busy", "false");
+              stopButton.hidden = true;
+              expandButton.hidden = true;
+              document.body.classList.add("research-complete");
+              stream.close();
+              activeStream = null;
+              activeJobId = null;
+            } else if (stream.readyState !== EventSource.CLOSED) {
+              status.textContent = "Connection interrupted · reconnecting to research updates…";
+            }
+          });
+          results.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (err) {
+          await cancelActiveSearch();
+          document.body.classList.remove("researching");
+          results.hidden = true;
+          error.textContent = err.message;
+          error.hidden = false;
+        } finally {
+          button.disabled = false;
+          button.textContent = "Explore name  ↗";
+        }
+      });
+
+      window.addEventListener("pagehide", () => {
+        void cancelActiveSearch(true);
+      });
+    </script>
+  </body>
+</html>

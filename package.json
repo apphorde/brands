@@ -1,0 +1,15 @@
+{
+  "name": "oracle-of-branding",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "html-to-text": "^9.0.5",
+    "ipaddr.js": "^2.5.0",
+    "undici": "^6.29.1"
+  }
+}
