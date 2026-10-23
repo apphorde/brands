@@ -426,6 +426,20 @@
         });
       }
 
+      function sanitizeSearchTerm(value) {
+        if (typeof value !== "string") {
+          return null;
+        }
+        const term = value.replace(/\p{Cc}/gu, " ").trim();
+        return term.length >= 2 && term.length <= 100 ? term : null;
+      }
+
+      function updateSearchURL(term) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("q", term);
+        window.history.replaceState(window.history.state, "", url);
+      }
+
       function renderMarkdown(text) {
         const rendered = marked.parse(text, { async: false, breaks: true });
         return DOMPurify.sanitize(rendered, { ALLOWED_URI_REGEXP: /^https?:|^mailto:/i });
@@ -499,11 +513,19 @@
 
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        const term = sanitizeSearchTerm(input.value);
+        if (!term) {
+          error.textContent = "Enter a name between 2 and 100 characters.";
+          error.hidden = false;
+          return;
+        }
+        input.value = term;
+        updateSearchURL(term);
         await cancelActiveSearch();
         error.hidden = true;
         document.body.classList.add("researching");
         document.body.classList.remove("research-complete");
-        results.innerHTML = `<div class="result-head"><small>Brand landscape</small><h2>${escapeHTML(input.value)}</h2></div><div class="status-row"><p class="status" id="status" role="status">Starting research…</p><button class="action-button" id="stop-search" type="button" hidden>Stop search</button></div><div id="sections"></div><button class="action-button expand-action" id="expand-search" type="button" hidden>Expand search</button><p class="disclaimer">This is preliminary web research, not comprehensive trademark or company-register research, legal advice, or a claim of availability. Searches use public web results, which may be incomplete or outdated. Check official registers and consult a qualified professional before making decisions.</p>`;
+        results.innerHTML = `<div class="result-head"><small>Brand landscape</small><h2>${escapeHTML(term)}</h2></div><div class="status-row"><p class="status" id="status" role="status">Starting research…</p><button class="action-button" id="stop-search" type="button" hidden>Stop search</button></div><div id="sections"></div><button class="action-button expand-action" id="expand-search" type="button" hidden>Expand search</button><p class="disclaimer">This is preliminary web research, not comprehensive trademark or company-register research, legal advice, or a claim of availability. Searches use public web results, which may be incomplete or outdated. Check official registers and consult a qualified professional before making decisions.</p>`;
         results.hidden = false;
         results.setAttribute("aria-busy", "true");
         button.disabled = true;
@@ -512,7 +534,7 @@
           const response = await fetch("/api/search", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ term: input.value }),
+            body: JSON.stringify({ term }),
           });
           const created = await response.json();
           if (!response.ok) throw new Error(created.error || "Could not complete the search.");
@@ -619,6 +641,20 @@
       window.addEventListener("pagehide", () => {
         void cancelActiveSearch(true);
       });
+
+      const pageURL = new URL(window.location.href);
+      if (pageURL.searchParams.has("q")) {
+        const initialTerm = sanitizeSearchTerm(pageURL.searchParams.get("q"));
+        if (initialTerm) {
+          input.value = initialTerm;
+          form.requestSubmit();
+        } else {
+          pageURL.searchParams.delete("q");
+          window.history.replaceState(window.history.state, "", pageURL);
+          error.textContent = "The search term in the URL must be between 2 and 100 characters.";
+          error.hidden = false;
+        }
+      }
     </script>
   </body>
 </html>
